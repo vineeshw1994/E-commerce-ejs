@@ -262,7 +262,7 @@ const orderStatus = async (req, res) => {
         console.log('this is subtotal ',subTotal) 
         const [orderCanceld] = order.map(item => item.orderCancleRequest);
         const orderStatus = order.map(item => item.status);
-        res.render("user/account/orderStatus", { title: "Product view", user, cartCount, order, orderProducts, subTotal, address, orderCanceld, orderStatus })
+        res.render("user/account/orderstatus", { title: "Product view", user, cartCount, order, orderProducts, subTotal, address, orderCanceld, orderStatus })
     } catch (error) {
         console.log(error)
         const message = error.message
