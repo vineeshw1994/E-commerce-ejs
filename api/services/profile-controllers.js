@@ -171,7 +171,7 @@ const order = async (req, res) => {
         const status = order.map(data => data.status);
         const orderstatus = order.map(data => data.orderCancleRequest);
         const Date = order.map(data => data.expectedDelivery.toLocaleDateString());
-        res.render('user/account/myOrder', {
+        res.render('user/account/myorder', {
             title: "OrderPage",
             name,
             user,
