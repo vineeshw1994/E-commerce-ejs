@@ -247,7 +247,7 @@ const orderStatus = async (req, res) => {
         const cartCount = cart.length;
         const orderId = req.params.id;
         const order = await ordercollection.find({ _id: orderId });
-        const orderProducts = order.map(items => items.proCartDetail).flat();
+        const orderProducts = order.map(items => items.proCartDetail).flat();  
         const cartProducts = order.map(items => items.cartProduct).flat();
         for (let i = 0; i < orderProducts.length; i++) {
             const orderProductId = orderProducts[i]._id;
