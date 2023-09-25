@@ -19,7 +19,7 @@ const bannerSchema = new mongoose.Schema({
       default: true,
      },
      bannerLink:{ 
-        type:String,
+        type:String, 
        
      },
      bannerType:{ 

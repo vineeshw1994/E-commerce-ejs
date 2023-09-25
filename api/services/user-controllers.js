@@ -366,7 +366,7 @@ const signup = (req, res) => {
         const message = error.message
         res.render('404-error', {error:500, message:'Internal Server Error'})
     }
-}
+} 
 const signup_post = async (req, res) => {
     try {
         const entrie = 1;
@@ -455,7 +455,7 @@ const signup_Otpvalidation = async (req, res) => {
     }
 };
 
-
+ 
 
 
 const resendOtp = async(req,res)=>{

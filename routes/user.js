@@ -63,7 +63,7 @@ user_route.post('/cartDelete/:id',userAuth.isblock,userController.cartDelete);
 
 
 //wishlist
-user_route.get('/wishlist',userAuth.isblock,userController.WhishListLoad)
+user_route.get('/wishlist',userAuth.isblock,userController.WhishListLoad) 
 user_route.post('/wishlist/:id',userAuth.isblock,userController.addingWhishList)
 user_route.get('/wishlist/:id',userAuth.isblock,userController.WhishProductDelete)
 user_route.post('/wishlist/cart:id',userAuth.isblock,userController.addingWhishListtoCart)

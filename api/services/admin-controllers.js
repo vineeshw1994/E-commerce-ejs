@@ -1068,10 +1068,12 @@ const add_banner = (req,res)=>{
 }
 
 const add_bannerPost = async(req,res)=>{
+    console.log('i am the add banner')
     const files = req.files
     const {name,discription} = req.body;
+    console.log(name,discription,files)
 
-    const banner = {
+    const banner = { 
         name:name,
         description:discription,
         image:files.map(file => file.filename),
