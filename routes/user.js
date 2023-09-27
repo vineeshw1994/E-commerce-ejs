@@ -75,7 +75,7 @@ user_route.post('/AddressUpdate',userAuth.isblock,userController.addressAdding)
 user_route.post('/CheckOut',userAuth.isblock,userController.orderSuccess)
 user_route.post('/saveOrderData',userController.savingData)
 
-//coupen validation
+//coupen validation 
 user_route.post('/coupons/couponValidation',userAuth.isblock,userController.coupons)
 
 user_route.get('/profile',userAuth.isblock,profilecontrollers.profile)

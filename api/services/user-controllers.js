@@ -1051,6 +1051,7 @@ const addressAdding = async (req, res) => {
 let newOrder;
 const orderSuccess = async (req, res) => { 
     try {
+        console.log('this is the order successful function')
         const currentDate = new Date();
         const data = req.body
         const email = req.session.user;

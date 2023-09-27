@@ -400,7 +400,7 @@ const pdf = async (req, res) => {
     
         const invoiceBuffer = await generateInvoice(order, orderProducts, subTotal, address, orderCanceld, orderStatus );
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename = invoice.pdf');
         res.send(invoiceBuffer);
     } catch (error) {
         console.log(error);
