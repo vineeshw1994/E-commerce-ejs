@@ -83,13 +83,13 @@
             <%}else{%>
                 <form action="/login" method="get">
                     <input type="hidden" value="<%= data._id%>" id="whishlistProductId">
-                    <button type="submit" class="btn btn-warning text-white px-5 p-2" style="font-size: 13px;">
+                    <button type="submit" class="btn btn-warning text-white px-3 p-2" style="font-size: 13px;">
                         Add to Whishlist
                     </button>
                 </form>
                 <form action="/login" method="get">
                     <input type="hidden" value="<%= data._id%>" id="cartProductId">
-                    <button type="submit" class="btn btn-danger text-white px-5 p-2"
+                    <button type="submit" class="btn btn-danger text-white px-2 p-2"
                         style="font-size: 13px;" id="addtoCart">Add to Cart</button>
                 </form>
             <%}%>
@@ -137,6 +137,9 @@
               url: '/cart/<%= data._id%>',
               success: function (res) {
                   succMsg.textContent = "Product Successfully Added Your Cart"
+                  setTimeout(() => {
+                     succMsg.style.display = 'none';
+                     }, 2000);
                   const currentCount = parseInt(cartItemCount.textContent) || 0;
                   const newCount = currentCount + 1;
                   cartItemCount.textContent = newCount;
@@ -159,6 +162,9 @@
           whishlistSuccMsg.innerText = "Product Already Existe In The WhishList"
       }else{
           whishlistSuccMsg.innerText = "Product Successfully Added"
+          setTimeout(() => {
+                     whishlistSuccMsg.style.display = 'none';
+                     }, 2000);
       }
       
      }

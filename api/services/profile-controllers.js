@@ -25,11 +25,13 @@ const profile = async(req,res)=>{
         const userDetails = await usercollection.findOne({ email: req.session.user });
         let cart = userDetails.cart.items;
         let cartCount = cart.length;
+        const wishlist = userDetails.wishlist.length
+        console.log('this is the wishlist count ', wishlist)
         const name = userDetails.name;
         const user = true
         const FoundUser = req.session.user;
         const userData = await usercollection.findOne({ email: FoundUser });
-        res.render('user/account/profile', { user,userData, cartCount ,name});
+        res.render('user/account/profile', { user,userData, cartCount ,name,wishlist});
         }else{
             res.redirect('/')
         }
@@ -48,9 +50,11 @@ const profileAddress = async (req, res) => {
         const userData = await usercollection.findOne({ email: userEmail });
         let cart = userData.cart.items;
         let cartCount = cart.length;
+        const wishlist = userData.wishlist.length
+        console.log('this is the wishlist count ', wishlist)
         const userAddress = userData.address; 
         const name = userData.name
-        res.render('user/account/address', { userAddress, cartCount,name })
+        res.render('user/account/address', { userAddress, cartCount,name,wishlist})
     } catch (error) {
         console.log(error)
         res.status(500).render('404-error', {  error:500, message:'Internal Server Error' });
@@ -100,9 +104,11 @@ const editAddress = async (req, res) => {
         const name = userDetails.name
         const cart = userDetails.cart.items;
         const cartCount = cart.length;
+        const wishlist = userDetails.wishlist.length
+        console.log('this is the wishlist count ', wishlist)
         const address = userDetails.address;
         const selectedAddress = address.find((data) => data._id.toString() === addressId);
-        res.render('user/account/editaddress', {  selectedAddress, cartCount,name }) 
+        res.render('user/account/editaddress', {  selectedAddress, cartCount,name,wishlist }) 
     } catch (error) {
         console.log(error)
         res.status(500).render('404-error', {  error:500, message:'Internal Server Error' });
@@ -117,6 +123,8 @@ const profileUpdate = async (req, res) => {
         console.log(userData)
         let cart = userData.cart.items;
         let cartCount = cart.length;
+        const wishlist = userData.wishlist.length
+        console.log('this is the wishlist count ', wishlist)
         const { name, email, number, password, password1, password2 } = req.body;
         if (password1 !== password2) {
             res.render('user/account/profile', { title: "Profile", user, userData, error: "Check the password currectly" });
@@ -131,9 +139,9 @@ const profileUpdate = async (req, res) => {
             await userData.save();
             req.session.email = userData.email
             req.session.user = userData.name
-            res.render('user/account/profile', { title: "Profile", user, userData, success: "Successfully Updated", cartCount });
+            res.render('user/account/profile', { title: "Profile", user, userData, success: "Successfully Updated", cartCount,wishlist });
         } else {
-            res.render('user/account/profile', { title: "Profile", user, userData, error: "Please check Your Current Password & Updated Email ID", cartCount });
+            res.render('user/account/profile', { title: "Profile", user, userData, error: "Please check Your Current Password & Updated Email ID", cartCount, wishlist });
         }
     } catch (error) {
         console.log(error)
@@ -151,6 +159,8 @@ const order = async (req, res) => {
        const name = userDetails.name;
         const cart = userDetails.cart.items;
         const cartCount = cart.length;
+        const wishlist = userDetails.wishlist.length
+        console.log('this is the wishlist count ', wishlist)
         const userid = userDetails._id;
         const order = await ordercollection.find({ userId: userid, orderReturnRequest: false, orderCancleRequest: false, status: {$ne: 'Deliverd' } }).sort({ _id: -1 });
         const orderHist = await ordercollection.find({
@@ -186,6 +196,7 @@ const order = async (req, res) => {
             orderHistStatus,
             orderHista,
             name,
+            wishlist
         });
     } catch (error) {
         console.log(error)
@@ -201,6 +212,8 @@ const listReturn = async (req, res) => {
         const name = userDetails.name
         const cart = userDetails.cart.items;
         const cartCount = cart.length;
+        const wishlist = userDetails.wishlist.length
+        console.log('this is the wishlist count ', wishlist)
         const userid = userDetails._id; 
         const returnProduct = await ordercollection.find({
             userId: userid, 
@@ -213,7 +226,7 @@ const listReturn = async (req, res) => {
             name,
             user,
             cartCount,
-            returnProduct
+            returnProduct,wishlist
         })
     } catch (error) {
         console.log(error)
@@ -245,6 +258,8 @@ const orderStatus = async (req, res) => {
         const userDetails = await usercollection.findOne({ email: req.session.user });
         const cart = userDetails.cart.items;
         const cartCount = cart.length;
+        const wishlist = userDetails.wishlist.length
+        console.log('this is the wishlist count ', wishlist)
         const orderId = req.params.id;
         const order = await ordercollection.find({ _id: orderId });
         const orderProducts = order.map(items => items.proCartDetail).flat();  
@@ -262,7 +277,7 @@ const orderStatus = async (req, res) => {
         console.log('this is subtotal ',subTotal) 
         const [orderCanceld] = order.map(item => item.orderCancleRequest);
         const orderStatus = order.map(item => item.status);
-        res.render("user/account/orderstatus", { title: "Product view", user, cartCount, order, orderProducts, subTotal, address, orderCanceld, orderStatus })
+        res.render("user/account/orderstatus", { title: "Product view", user, cartCount, order, orderProducts, subTotal, address, orderCanceld, orderStatus,wishlist })
     } catch (error) {
         console.log(error)
         const message = error.message
@@ -276,6 +291,8 @@ const orderView = async (req, res) => {
         const userDetails = await usercollection.findOne({ email: req.session.user });
         const cart = userDetails.cart.items;
         const cartCount = cart.length;
+        const wishlist = userDetails.wishlist.length
+        console.log('this is the wishlist count ', wishlist)
         const orderId = req.query.id;
         const order = await ordercollection.find({ _id: orderId });
         const orderProducts = order.map(items => items.proCartDetail).flat();
@@ -292,7 +309,7 @@ const orderView = async (req, res) => {
         const subTotal = cartProducts.reduce((totals, items) => totals + items.realPrice, 0);
         const [orderCanceld] = order.map(item => item.orderCancleRequest);
         const orderStatus = order.map(item => item.status);
-        res.render("user/account/orderStatus", { title: "Product view", user, cartCount, order, orderProducts, subTotal, address, orderCanceld, orderStatus })
+        res.render("user/account/orderStatus", { title: "Product view", user, cartCount, order, orderProducts, subTotal, address, orderCanceld, orderStatus,wishlist })
     } catch (error) {
         console.log(error)
         const message = error.message
@@ -414,8 +431,10 @@ const  loadWallet = async (req,res)=>{
     try{
         const userDetails = await usercollection.findOne({ email: req.session.user });
         const name = userDetails.name;
-        // const cart = userDetails.cart.items;
-        // const cartCount = cart.length;
+        const cart = userDetails.cart.items;
+        const cartCount = cart.length;
+        const wishlist = userDetails.wishlist.length
+        console.log('this is the wishlist count ', wishlist)
         console.log(userDetails)
         const wallet_Balance = userDetails.walletbalance;
         console.log('this is my wallet balance ', wallet_Balance) 
@@ -423,7 +442,7 @@ const  loadWallet = async (req,res)=>{
         for (let i = 0; i < userDetails.cart.length; i++) {
             totalProducts += userDetails.cart[i].quantity;
         }
-        res.render('user/account/wallet',{userDetails,totalProducts,wallet_Balance,name});
+        res.render('user/account/wallet',{userDetails,totalProducts,wallet_Balance,name,cartCount,wishlist});
     }
     catch(err){
         console.log("Error in loading wallet",err);
@@ -517,7 +536,7 @@ const loadWalletHistory = async(req,res)=>{
 
 
 
- 
+  
 
 module.exports = {
     profile,

@@ -59,12 +59,14 @@ const userSchema = new mongoose.Schema({
 
 
 
-    wishlist: [{
+    wishlist: 
+        [{
         productId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: productModel
         }
-    }],
+    }]
+,
 
     walletbalance:{
         type:Number,

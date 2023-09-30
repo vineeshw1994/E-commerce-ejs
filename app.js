@@ -15,6 +15,9 @@ app.use('/productImages', express.static(path.resolve(__dirname, 'productImages'
 //multer image for banners
 app.use('/banner',express.static(path.resolve(__dirname,'banner')))
 
+//videos
+app.use('/videos', express.static(path.resolve(__dirname, 'videos')));
+
 dotenv.config({path:path.join(__dirname,'config/config.env')})
 
 app.use(cookieParser());

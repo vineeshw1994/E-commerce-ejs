@@ -43,7 +43,7 @@ const home = async (req, res) => {
         const products = await productCollection.find({ availability: true }).limit(10)
         const product = await productCollection.find({ availability: true }).skip(10).limit(10)
         const bannerData = await bannercollection.find({availability:true})
-        // const mobiles = await productCollection.find({ category: 'Mobiles' },{})
+        const mobiles = await productCollection.find({ category: 'Mobiles' },{})
 
 
 
@@ -57,12 +57,14 @@ const home = async (req, res) => {
             
             const cart = userdetials.cart.items
             const cartCount = cart.length
+            const wishlist = userdetials.wishlist.length
+            console.log('this is the wishlist count ', wishlist)
             user = true;
-            res.render('user/home', { products, user, cartCount, name, product, whish_count,bannerData})
+            res.render('user/home', { products, user, cartCount, name, product, whish_count,bannerData , wishlist,mobiles})
         } else {
             console.log('this is home else condition')
             user = false;
-            res.render('user/home', { user, products, product,bannerData});
+            res.render('user/home', { user, products, product,bannerData,mobiles});
         }
 
         //const mobiles = await productCollection.find({ category: 'Smart Watch' }, {})
@@ -491,9 +493,13 @@ const shop = async (req, res) => {
     try {
       const userDetails = await usercollection.findOne({ email: req.session.user });
       let cartCount, cart;
+      let wishlist, name
       if (userDetails) {
+        name = userDetails.name;
         cart = userDetails.cart;
         cartCount = cart.items.length;
+        wishlist = userDetails.wishlist.length
+        console.log('this is the wishlist count ', wishlist)
       }
       const userdata = await usercollection.findOne({email:req.session.user})
     //  const name = userdata.name
@@ -522,6 +528,8 @@ const shop = async (req, res) => {
         cartCount,
         totalPages,
         currentPage: page,
+        wishlist,
+        name
       });
     } catch (error) {
       console.error(error.message);
@@ -587,13 +595,16 @@ const productView = async (req, res) => {
         // const cate = data.category[0];
         // const category = await ProductModel.find({ category: cate }).sort({ _id: -1 }).limit(4);
         let cart, cartCount;
+        let wishlist;
         const price = data.originalprice - ((data.originalprice * data.productOffer) / 100)
         if (userData) {
             cart = userData.cart.items;
             cartCount = cart.length;
-            res.render('user/product-view', { user: req.session.user, price, data, cartCount })
+            wishlist = userData.wishlist.length
+            console.log('this is the wishlist count ', wishlist)
+            res.render('user/product-view', { user: req.session.user, price, data, cartCount ,wishlist})
         } else {
-            res.render('user/product-view', { user: req.session.user, price, data, cartCount })
+            res.render('user/product-view', { user: req.session.user, price, data, cartCount, wishlist })
         }
 
         res.render('user/product-view', { data, user: req.session.user })
@@ -635,6 +646,8 @@ const loadcart = async (req, res) => {
             const similarproducts = await productCollection.find({ availability: true }).sort({ name: -1 }).limit(4)
             const cartItems = userDetails.cart.items
             const cartCount = cartItems.length
+            const wishlist = userDetails.wishlist.length
+            console.log('this is the wishlist count ', wishlist)
             const cartProductIds = cartItems.map(item => item.productId);
             const cartProducts = await productCollection.find({ _id: { $in: cartProductIds } });
             const productsPrice = cartItems.reduce((accu, element) => accu + (element.quantity * element.price), 0);
@@ -652,7 +665,7 @@ const loadcart = async (req, res) => {
             const discount = Math.abs(totalPrice - productsPrice);
             console.log(' man i am the discount')
             console.log(discount)
-            res.render('user/cart', { message: "Login Page", user, name, cartCount, cartItems, cartProducts, productsPrice, totalQuantity, totalPrice, discount, similarproducts })
+            res.render('user/cart', { message: "Login Page", user, name, cartCount, cartItems, cartProducts, productsPrice, totalQuantity, totalPrice, discount, similarproducts,wishlist })
         } else {
             res.redirect('/login')
         }
@@ -850,7 +863,7 @@ const coupons = async (req, res) => {
             if (!userExist) {
                 if (TotalAmount <= couponValue.maxValue && TotalAmount >= couponValue.minValue) {
                     // , { $push: { userId: userDataId } }
-                    await couponcollection.updateOne({ couponName: couponCode });
+                    await couponcollection.updateOne({ couponName: couponCode }, { $push: { userId: userDataId } });
                     res.json({ message: 'Coupon is succefully Added', coupon: couponValue });
                 } else {
                     res.json({ message: 'Coupon Expired', coupon: couponValue });
@@ -878,11 +891,13 @@ const WhishListLoad = async (req, res) => {
             const productData = userDetails.wishlist;
             const cart = userDetails.cart.items;
             const cartCount = cart.length;
+            const wishlist = userDetails.wishlist.length
+            console.log('this is the wishlist count ', wishlist)
             const productId = productData.map(items => items.productId);
             const productDetails = await productCollection.find({ _id: { $in: productId } });
             const price = productDetails.originalprice - (productDetails.originalprice * productDetails.productOffer) / 100
 
-            res.render('user/wishList', { user, price, productDetails, cartCount,name })
+            res.render('user/wishList', { user, price, productDetails, cartCount,name,wishlist })
         } else {
             res.redirect('/login')
         }
@@ -982,6 +997,8 @@ const Checkout = async (req, res) => {
         const currentUserID = userDetails._id;
         const cartItems = userDetails.cart.items;
         const cartCount = cartItems.length;
+        const wishlist = userDetails.wishlist.length
+        console.log('this is the wishlist count ', wishlist)
         const coupons = await couponcollection.find();
         console.log('this is a coupons',coupons)
         const coupon = coupons.filter(coupon => !coupon.userId.includes(currentUserID));
@@ -1002,7 +1019,8 @@ const Checkout = async (req, res) => {
             totalPrice,
             address,
             cartCount,
-            coupon
+            coupon,
+            wishlist
         })
     } catch (error) {
         console.log(error);

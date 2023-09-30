@@ -128,14 +128,66 @@
   </div>
 </section>
 
-
+<div style="background-color: rgb(220, 240, 210); height: 70px; border-radius: 10px; padding: 10px; text-align: center;">
+  <h2>Special Offers</h2>
+</div>
 <div class="container">
   <!-- line -->
   <div class="container">
     <hr class="line bg-dark" />
   </div>
 
+  <div style="border-radius: 10px;">
+    <div class="row">
+      <div class="col-md-6">
+        <iframe width="500px" height="315" src="../../videos/video (1080p).mp4" title="Iphone Max" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <div class="col-md-6 ">
+        <iframe width="500px" height="315" src="../../videos/video (1080p) (2).mp4" title="Iphone Max" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+    
+  </div>
   
+  
+  <div class="container">
+    <!-- line -->
+    <div class="container">
+      <hr class="line bg-dark" />
+    </div>
+
+
+  <div class="owl-carousel owl-theme">
+
+    <% product.forEach((product,index)=>{ %>
+
+     <div class="" style="width: 145px; height: 300px;">
+              <div class="">
+      <div class="">
+          <span class="discount-tag"><%= product.productOffer %>% off</span>
+
+              <img src="/productImages/<%=product.image[0] %>" class="product-thumb" alt=""  id="small-carosual">
+          <a href="/product-view/<%= product._id%>"><button class="card-btn">View Product</button></a>
+      </div>
+      <div class="product-info ">
+          <h2 class="product-brand product-name"><%= product.name %></h2>
+          <span class="price text-danger">₹ <%= product.price %></span><span class="actual-price">₹ <%= product.originalprice %></span>
+          <div class="rating d-flex align-items-center">
+              <div class="star d-flex align-items-center text-warning">
+                  <i class="fa fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+              </div>
+              <div class="value ms-2">(75)</div>
+          </div>
+      </div>
+    </div>
+  </div>
+  
+  <% }); %>
+</div>
 
   <div class="container">
     <!-- line -->
@@ -143,6 +195,40 @@
       <hr class="line bg-dark" />
     </div>
   
+
+
+<div class="owl-carousel owl-theme">
+  <% mobiles.forEach((product,index)=>{ %>
+    <div class="">
+        <div class="" style="height: 180px;">
+            <span class="discount-tag"><%= product. productOffer %>% off</span>
+
+                <img src="/productImages/<%=product.image[0] %>" class="product-thumb" alt="" style="height: 160px; width: 150px;">
+            <a href="/product-view/<%= product._id%>"><button class="card-btn">View Product</button></a>
+        </div>
+        <div class="product-info ">
+            <h2 class="product-brand product-name"><%= product.name %></h2>
+            <span class="price text-danger">₹ <%= product.price %></span><span class="actual-price">₹ <%= product.originalprice %></span>
+            <div class="rating d-flex align-items-center">
+                <div class="star d-flex align-items-center text-warning">
+                    <i class="fa fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <div class="value ms-2">(75)</div>
+            </div>
+        </div>
+    </div>
+    <% }); %>
+</div>
+
+<div class="container">
+  <!-- line -->
+  <div class="container">
+    <hr class="line bg-dark" />
+  </div>
   <!-- Service Card -->
   <div
     class="container p-3 mt-4 mb-2"
@@ -228,6 +314,30 @@
       item.scrollLeft -= containerWidth;
     });
   });
+</script>
+
+
+
+<script>
+  $('.owl-carousel').owlCarousel({
+    loop:true,
+    autoplay:true,
+    autoplayTimeout:1500,
+    margin:10,
+    nav:true,
+    autoplayHoverPause:true,
+    responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:3
+        },
+        1000:{
+            items:5
+        }
+    }
+})
 </script>
 
 <%- include("../partials/foeter.ejs")%>
