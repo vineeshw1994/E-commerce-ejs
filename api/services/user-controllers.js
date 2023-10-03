@@ -14,19 +14,15 @@ const fast2sms = require('fast-two-sms');
 
 
 
-const API = 'FONkjetDrTbMoQXPy2fm5YS84BRawh3s9cUAC0zl6pHqJdZv1KxzTR8oCsfw50VaWnYDGJA71FOPcKdp'
-// const API = process.env.FAST_TWO_SMS_API
+
+ const API = process.env.FAST_TWO_SMS_API
 // process.env.FAST_TWO_SMS_API 
-const key_id = 'rzp_test_kjs3Abj9teKyq6'
-const key_secret = 'oo3gc41lM7OUEGWwjuFfLx0S'
+const key_id = process.env.key_id
+const key_secret = process.env.key_secret
 
-// const key_id = "rzp_test_PicapxCZgTdIJB"
-// const key_secret = "rX0qDzRKybvHJWMaKtwzou5q"
 
-// const accountSid = 'ACa0ac5445876f34a8fe8a836ec0c444ce';
-// const authToken = 'ca8bbedf375a5ea328790b1fbcaa136a'; 
-// const phoneNumber = '+13186977527'
-// const client = require('twilio')(accountSid, authToken);
+
+
 
 //PASSWORD ENCRIPTION
 
