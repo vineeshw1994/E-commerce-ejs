@@ -63,10 +63,7 @@ const home = async (req, res) => {
             res.render('user/home', { user, products, product,bannerData,mobiles});
         }
 
-        //const mobiles = await productCollection.find({ category: 'Smart Watch' }, {})
-        // const headphones = await productCollection.find({category:'Head Phones'},{})
-        // const smartwatche = await productCollection.find({category:'Smart Watch'},{})
-        // const bluetooth = await productCollection.find({category:'Bluetooth Speaker'},{})
+      
 
 
     } catch (error) {
